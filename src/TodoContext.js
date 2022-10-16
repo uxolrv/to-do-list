@@ -1,4 +1,4 @@
-import React, { useReducer, createContext, useContext } from 'react';
+import React, { useReducer, createContext, useContext, useRef } from 'react';
 
 const initialTodos = [
     {
@@ -38,15 +38,22 @@ function todoReducer(state, action) {
     }
 }
 
+
 const TodoStateContext = createContext();
 const TodoDispatchContext = createContext();
+const TodoNextIdContext = createContext();
+
 
 export function TodoProvider({ children }) {
     const [state, dispatch] = useReducer(todoReducer, initialTodos);
+    const nextId = useRef(5); // 새로운 항목을 추가할 때 사용할 고유 ID
+
     return (
         <TodoStateContext.Provider value={state}>
             <TodoDispatchContext.Provider value={dispatch}>
-                {children}
+                <TodoNextIdContext.Provider value={nextId}>
+                    {children}
+                </TodoNextIdContext.Provider>
             </TodoDispatchContext.Provider>
         </TodoStateContext.Provider>
     );
@@ -58,4 +65,8 @@ export function useTodoState() {
 
 export function useTodoDispatch() {
     return useContext(TodoDispatchContext);
+}
+
+export function useTodoNextId() {
+    return useContext(TodoNextIdContext);
 }

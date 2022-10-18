@@ -6,21 +6,33 @@ import { useTodoState } from '../TodoContext';
 const TodoHeadBlock = styled.div`
     padding: 48px 32px 24px 32px;
     border-bottom: 1px solid #e9ecef;
+    font-family: 'DM Serif Display', serif;
     h1 {
         margin: 0;
-        font-size: 36px;
-        color: #343a40;
+        font-size: 70px;
+        color: #EEF2E6;
+        text-align: center;
+        line-height: 60px;
+        
+    }
+    .year {
+        color: #D6CDA4;
+        margin-top: 15px;
+        font-size: 100px;
+        font-style: italic;
     }
     .day {
-        margin-top: 4px;
-        color: #868e96;
-        font-size: 21px;
+        font-style: italic;
+        /* color: #D6CDA4; */
+        line-height: 45px;
+        font-size: 50px;
+        margin-right: 10px;
+        text-align: center;
     }
     .tasks-left {
-        color: #20c997;
-        font-size: 18px;
-        margin-top: 40px;
-        font-weight: bold;
+        color: #FDFDBD;
+        font-size: 25px;
+        margin: 20px 20px 10px 20px;
     }
 `;
 
@@ -29,19 +41,23 @@ function TodoHead() {
     const undoneTasks = todos.filter(todo => !todo.done); // 할 일 개수
 
     const today = new Date();
-    const dateString = today.toLocaleDateString('ko-KR', {
-        year: 'numeric',
+    const dateString = today.toLocaleDateString('en-EN', {
+        // year: 'numeric',
         month: 'long',
         day: 'numeric'
     });
-    const dayName = today.toLocaleDateString('ko-KR', { weekday: 'long' });
-    
+    const yearString = today.toLocaleDateString('en-EN', {
+        year: 'numeric'
+    })
+    const dayName = today.toLocaleDateString('en-EN', { weekday: 'long' });
+
 
     return (
         <TodoHeadBlock>
+            <h1 className='year'>{yearString}</h1>
             <h1>{dateString}</h1>
-            <div className='day'>{dayName}</div>
-            <div className='tasks-left'>할 일이 {undoneTasks.length}개 남았습니다</div>
+            <h1 className='day'>{dayName}</h1>
+            <div className='tasks-left'>{undoneTasks.length} tasks</div>
         </TodoHeadBlock>
     )
 }

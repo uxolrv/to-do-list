@@ -4,12 +4,12 @@ import { MdAdd } from 'react-icons/md';
 import { useTodoDispatch, useTodoNextId } from '../TodoContext';
 
 const CircleButton = styled.button`
-    background: #38d9a9;
+    background: #1C6758;
     &:hover {
-        background: #63e6be;
+        background: #3D8361;
     }
     &:active {
-        background: #20c997;
+        background: #D6CDA4;
     }
 
     z-index: 5;
@@ -36,12 +36,12 @@ const CircleButton = styled.button`
     ${props =>
         props.open &&
         css`
-        background: #ff6b6b;
+        background: #D6CDA4;
         &:hover {
-            background: #ff8787;
+            background: #3D8361;
         }
         &:active {
-            background: #fa5252;
+            background: #D6CDA4;
         }
         transform: translate(-50%, 50%) rotate(45deg);
       `}
@@ -83,18 +83,30 @@ function TodoCreate() {
     const onToggle = () => setOpen(!open);
     const onChange = e => setValue(e.target.value)
     const onSubmit = e => {
+
+        const todo = {
+            text: value,
+            done: false
+        }
+
+        fetch(`http://localhost:3001/todos/`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(todo)
+        })
+
         e.preventDefault();
         dispatch({
             type: 'CREATE',
             todo: {
-                id: nextId.current,
+                // id: nextId.current,
                 text: value,
                 done: false
             }
         });
         setValue('');
         setOpen(false);
-        nextId.current += 1;
+        // nextId.current += 1;
     }
 
     return (

@@ -1,38 +1,28 @@
-import React, { useReducer, createContext, useContext, useRef } from 'react';
+import React, { useReducer, createContext, useContext, useRef, useEffect, useState } from 'react';
 
-const initialTodos = [
-    {
-        id: 1,
-        text: '프로젝트 생성하기',
-        done: true
-    },
-    {
-        id: 2,
-        text: '컴포넌트 스타일링하기',
-        done: true
-    },
-    {
-        id: 3,
-        text: 'Context 만들기',
-        done: false
-    },
-    {
-        id: 4,
-        text: '기능 구현하기',
-        done: false
-    }
-];
+// let initialTodos = [];
+// console.log("initialTodos", initialTodos)
 
 function todoReducer(state, action) {
     switch (action.type) {
         case 'CREATE':
             return state.concat(action.todo);
         case 'TOGGLE':
-            return state.map(todo => 
-                todo.id === action.id ? {...todo, done: !todo.done } : todo
-                );
+            return state.map(todo =>
+                todo.id === action.id ? { ...todo, done: !todo.done } : todo
+            );
         case 'REMOVE':
             return state.filter(todo => todo.id !== action.id);
+        case 'UPDATE':
+            console.log("action.text", action.text)
+            console.log("action.id", action.id)
+            console.log("state", state)
+            return state.map(todo =>
+                // console.log(action.todo.text)
+                todo.id === action.id ? { text: action.text } : todo
+            );
+        case 'FETCH_SUCCESS':
+            return action.data
         default:
             throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -45,8 +35,30 @@ const TodoNextIdContext = createContext();
 
 
 export function TodoProvider({ children }) {
-    const [state, dispatch] = useReducer(todoReducer, initialTodos);
-    const nextId = useRef(5); // 새로운 항목을 추가할 때 사용할 고유 ID
+
+
+    const [state, dispatch] = useReducer(todoReducer, []);
+    const nextId = useRef(1); // 새로운 항목을 추가할 때 사용할 고유 ID
+
+    useEffect(() => {
+        fetch(`http://localhost:3001/todos/`)
+            .then(res => {
+                if (!res.ok) {
+                    throw Error('could not fetch the data for that resource');
+                }
+                return res.json()
+            })
+            .then(data => {
+                // setList(data)
+                console.log(data)
+                dispatch({
+                    type: 'FETCH_SUCCESS', data
+                })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
 
     return (
         <TodoStateContext.Provider value={state}>
@@ -62,7 +74,7 @@ export function TodoProvider({ children }) {
 export function useTodoState() {
     const context = useContext(TodoStateContext);
     // 만약 TodoProvider 로 감싸져있지 않다면 에러 발생
-    if(!context) {
+    if (!context) {
         throw new Error('Cannot find TodoProvider');
     }
     return useContext(TodoStateContext);
@@ -70,7 +82,7 @@ export function useTodoState() {
 
 export function useTodoDispatch() {
     const context = useContext(TodoDispatchContext);
-    if(!context) {
+    if (!context) {
         throw new Error('Cannot find TodoProvider');
     }
     return context;
@@ -78,7 +90,7 @@ export function useTodoDispatch() {
 
 export function useTodoNextId() {
     const context = useContext(TodoNextIdContext);
-    if(!context) {
+    if (!context) {
         throw new Error('Cannot find TodoProvider');
     }
     return context;

@@ -9,6 +9,8 @@ import { TodoProvider } from './TodoContext';
 const GlobalStyle = createGlobalStyle`
   body {
     background: #e9ecef;
+    display: flex;
+    justify-content: center;
   }
 `;
 

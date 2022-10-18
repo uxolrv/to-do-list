@@ -1,25 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { MdDone, MdDelete } from 'react-icons/md';
+import { MdDone, MdDelete, MdBuild } from 'react-icons/md';
 import { useTodoDispatch } from '../TodoContext';
 
 const Remove = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 15px;
     color: #dee2e6;
     font-size: 24px;
     cursor: pointer;
     &:hover {
         color:#ff6b6b;
+        display: block;
     }
-    display: none;
+    /* display: none; */
 `;
 
-const TodoItemBlock = styled.div`
+const Modify = styled.div`
     display: flex;
     align-items: center;
-    padding: 12px 0px;
+    justify-content: center;
+    margin-right: 15px;
+    color: #dee2e6;
+    font-size: 24px;
+    cursor: pointer;
+    /* display: none; */
+    &:hover {
+        color: rgb(0, 156, 125);
+        display: block;
+    }
+`;
+
+// 투두 리스트 전체를 감싸는 블럭
+const TodoItemBlock = styled.div`
+    background-color: #f8f9fa;
+    /* background-color: rgba(250, 250, 250); */
+    display: flex;
+    /* border-radius: 15px; */
+    align-items: center;
+    /* box-shadow: 2px 2px 3px rgb(220, 220, 220) ; */
+    padding: 15px 0px;
+    margin: 5px 20px;
     &:hover {
         ${Remove} {
             display: initial;
@@ -28,46 +51,104 @@ const TodoItemBlock = styled.div`
 `
 
 const CheckCircle = styled.div`
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 20px;
     border-radius: 16px;
     border: 1px solid #ced4da;
+    /* color: #ced4da; */
+    /* background: rgb(230, 230, 230); */
     font-size: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 20px;
+    margin-left: 15px;
     cursor: pointer;
     ${props =>
-    props.done &&
-    css`
-        border: 1px solid #38d9a9;
-        color: #38d9a9;
+        props.done &&
+        css`
+        border: 1px solid rgb(0, 156, 125);
+        color: rgb(0, 156, 125);
     `}
 `;
 
-const Text = styled.div`
+// 인풋창
+const Text = styled.input`
     flex: 1;
-    font-size: 21px;
+    font-size: 20px;
+    font-family: 'Nanum Myeongjo', serif;
     color: #495057;
-    ${props => 
-    props.done &&
-    css`
+    border: none;
+    /* outline: none; */
+    background: transparent;
+    &:focus {
+        color: rgb(0, 156, 125);
+        outline: none;
+        /* border-bottom: 1px solid #ced4da; */
+    }
+    &:hover {
+        outline: none;
+    }
+    ${props =>
+        props.writemode &&
+        css`
+        border-bottom: 1px solid #ced4da;
+        `
+    }
+    ${props =>
+        props.done &&
+        css`
         color: #ced4da;
     `}
 `;
 
 function TodoItem({ id, done, text }) {
+    // console.log({ id })
+    const [writemode, setWritemode] = useState(false);
+
     const dispatch = useTodoDispatch();
     const onToggle = () => dispatch({ type: 'TOGGLE', id });
-    const onRemove = () => dispatch({ type: 'REMOVE', id });
+    const onRemove = () => {
+        fetch(`http://localhost:3001/todos/${id}`, {
+            method: 'DELETE'
+        })
+        dispatch({ type: 'REMOVE', id })
+    };
+    const onUpdate = (e) => {
+        if (e.key == "Enter") {
+
+            // const todo = {
+            //     text: e.target.value,
+            //     ...todo,
+            // }
+
+            fetch(`http://localhost:3001/todos/${id}`, {
+                method: 'PATCH',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    text: e.target.value,
+                    done
+                })
+            })
+            dispatch({ type: 'UPDATE', id, text: e.target.value })
+            setWritemode(false)
+        }
+        // setTodo(e.target.value)
+    }
+    const handleWriteMode = () => {
+        setWritemode(!writemode)
+    }
+
 
     return (
         <TodoItemBlock>
             <CheckCircle done={done} onClick={onToggle}>
-                {done && <MdDone/>}
+                {done && <MdDone />}
             </CheckCircle>
-            <Text done={done}>{text}</Text>
+            <Text type="text" disabled={writemode ? "" : "disabled"} done={done} writemode={writemode} defaultValue={text} onKeyPress={onUpdate}></Text>
+            <Modify>
+                <MdBuild onClick={handleWriteMode} />
+            </Modify>
             <Remove onClick={onRemove}>
                 <MdDelete />
             </Remove>

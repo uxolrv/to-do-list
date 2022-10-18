@@ -1,33 +1,29 @@
 {
   "todos": [
     {
-      "text": "세션 듣기",
+      "text": "CRUD 기능 구현하기",
       "done": false,
-      "id": 3
+      "id": 2
     },
     {
-      "text": "할 일 이; 다",
+      "text": "CSS 수정하기",
       "done": false,
       "id": 4
     },
     {
-      "text": "아니 수정이 되는거야?",
+      "text": "배포하기",
       "done": false,
       "id": 5
     },
     {
-      "text": "아니 수정이요₩~~~\\ 수정!!",
+      "text": "기술 면접 준비하기",
+      "done": false,
       "id": 6
     },
     {
-      "text": "ㅇ ㅜ와",
+      "text": "할일",
       "done": false,
       "id": 7
-    },
-    {
-      "text": "수정 좀 할게욥",
-      "done": false,
-      "id": 8
     }
   ]
 }

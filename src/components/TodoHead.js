@@ -9,30 +9,30 @@ const TodoHeadBlock = styled.div`
     font-family: 'DM Serif Display', serif;
     h1 {
         margin: 0;
-        font-size: 70px;
+        font-size: 60px;
         color: #EEF2E6;
         text-align: center;
-        line-height: 60px;
+        line-height: 50px;
         
     }
     .year {
         color: #D6CDA4;
         margin-top: 15px;
-        font-size: 100px;
+        font-size: 85px;
         font-style: italic;
     }
     .day {
         font-style: italic;
         /* color: #D6CDA4; */
-        line-height: 45px;
-        font-size: 50px;
+        line-height: 35px;
+        font-size: 45px;
         margin-right: 10px;
         text-align: center;
     }
     .tasks-left {
         color: #FDFDBD;
-        font-size: 25px;
-        margin: 20px 20px 10px 20px;
+        font-size: 22px;
+        margin: 30px 5px 0px 5px;
     }
 `;
 

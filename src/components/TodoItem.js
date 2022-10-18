@@ -7,9 +7,9 @@ const Remove = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 15px;
+    margin-right: 10px;
     color: #dee2e6;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
     &:hover {
         color:#ff6b6b;
@@ -22,9 +22,9 @@ const Modify = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 15px;
+    margin-right: 10px;
     color: #dee2e6;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
     /* display: none; */
     &:hover {
@@ -41,7 +41,7 @@ const TodoItemBlock = styled.div`
     /* border-radius: 15px; */
     align-items: center;
     /* box-shadow: 2px 2px 3px rgb(220, 220, 220) ; */
-    padding: 15px 0px;
+    padding: 10px 0px;
     margin: 5px 20px;
     &:hover {
         ${Remove} {
@@ -51,8 +51,8 @@ const TodoItemBlock = styled.div`
 `
 
 const CheckCircle = styled.div`
-    width: 20px;
-    height: 20px;
+    width: 17px;
+    height: 17px;
     border-radius: 16px;
     border: 1px solid #ced4da;
     /* color: #ced4da; */
@@ -75,7 +75,7 @@ const CheckCircle = styled.div`
 // 인풋창
 const Text = styled.input`
     flex: 1;
-    font-size: 20px;
+    font-size: 14px;
     font-family: 'Nanum Myeongjo', serif;
     color: #495057;
     border: none;

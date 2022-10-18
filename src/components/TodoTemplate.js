@@ -3,8 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const TodoTemplateBlock = styled.div`
-    width: 800px;
-    height: 900px;
+    width: 650px;
+    height: 650px;
     position: relative;
     background: #1C6758;
     /* border-radius: 16px; */

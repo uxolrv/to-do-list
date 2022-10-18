@@ -14,8 +14,8 @@ const CircleButton = styled.button`
 
     z-index: 5;
     cursor: pointer;
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     display: block;
     align-items: center;
     justify-content: center;
@@ -56,8 +56,7 @@ const InsertFormPositioner = styled.div`
 
 const InsertForm = styled.form`
     background: #f8f9fa;
-    padding: 32px 32px 72px 32px;
-
+    padding: 32px 32px 50px 32px;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
     border-top: 1px solid #e9ecef;
@@ -66,10 +65,10 @@ const InsertForm = styled.form`
 const Input = styled.input`
     padding: 12px;
     border-radius: 4px;
-    border: 1px solid #dee2e6;
+    border: none;
     width: 100%;
     outline: none;
-    font-size: 18px;
+    font-size: 13px;
     box-sizing: border-box;
 `;
 
